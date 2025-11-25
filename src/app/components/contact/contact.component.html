@@ -1,0 +1,116 @@
+<section id="contact">
+  <h2 class="section-title">
+    <span *ngIf="currentLang === 'en'">Location & Contact</span>
+    <span *ngIf="currentLang === 'ar'" class="arabic">الموقع وطرق التواصل</span>
+  </h2>
+  <div class="contact-wrapper">
+    <div class="contact-info">
+      <div class="contact-item address-item">
+        <div class="contact-item-header">
+          <div class="contact-icon">📍</div>
+          <strong *ngIf="currentLang === 'en'">Address</strong>
+          <strong *ngIf="currentLang === 'ar'" class="arabic">العنوان</strong>
+        </div>
+        <div class="contact-item-content">
+          <div class="address-card">
+            <p class="arabic" *ngIf="currentLang === 'ar'">
+              الفحيحيل، الأحمدي<br>
+              شارع عبد الله العجيل<br>
+              مبنى عبد الله جاسم الدبوس<br>
+              الطابق الأرضي، محل رقم 1<br>
+              <span style="color: var(--primary-color); font-weight: 600;">قطعة: 007913، بلوك: 011</span>
+            </p>
+            <p class="english" *ngIf="currentLang === 'en'">
+              Fahaheel, Ahmadi<br>
+              Abdullah Al-Ajeel Street<br>
+              Abdullah Jassim Al-Dabbous Building<br>
+              Ground Floor, Shop 1<br>
+              <span style="color: var(--primary-color); font-weight: 600;">Plot: 007913, Block: 011</span>
+            </p>
+            <a href="https://www.google.com/maps?q=29.079821,48.137112" target="_blank" class="directions-btn" *ngIf="currentLang === 'en'">
+              Get Directions
+            </a>
+            <a href="https://www.google.com/maps?q=29.079821,48.137112" target="_blank" class="directions-btn arabic" *ngIf="currentLang === 'ar'">
+              احصل على الاتجاهات
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="contact-item phone-item">
+        <div class="contact-item-header">
+          <div class="contact-icon">📞</div>
+          <strong *ngIf="currentLang === 'en'">Phone</strong>
+          <strong *ngIf="currentLang === 'ar'" class="arabic">الهاتف</strong>
+        </div>
+        <div class="contact-item-content">
+          <p><a href="tel:+96566110278">+965 6611 0278</a></p>
+          <p><a href="tel:+965066110278">+965 0661 10278</a></p>
+        </div>
+      </div>
+      <div class="contact-item whatsapp-item">
+        <div class="contact-item-header">
+          <div class="contact-icon">💬</div>
+          <strong *ngIf="currentLang === 'en'">WhatsApp</strong>
+          <strong *ngIf="currentLang === 'ar'" class="arabic">واتساب</strong>
+        </div>
+        <div class="contact-item-content">
+          <p><a href="https://wa.me/96566110278" target="_blank">+965 6611 0278</a></p>
+        </div>
+      </div>
+      <div class="contact-item email-item">
+        <div class="contact-item-header">
+          <div class="contact-icon">✉️</div>
+          <strong *ngIf="currentLang === 'en'">Email</strong>
+          <strong *ngIf="currentLang === 'ar'" class="arabic">البريد الإلكتروني</strong>
+        </div>
+        <div class="contact-item-content">
+          <p><a href="mailto:info&#64;madrid-optics.com">info&#64;madrid-optics.com</a></p>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form">
+      <form (ngSubmit)="onSubmit()" #contactForm="ngForm">
+        <div class="form-group">
+          <label *ngIf="currentLang === 'en'">Name</label>
+          <label *ngIf="currentLang === 'ar'" class="arabic">الاسم</label>
+          <input type="text" [(ngModel)]="formData.name" name="name" required>
+        </div>
+        <div class="form-group">
+          <label *ngIf="currentLang === 'en'">Phone</label>
+          <label *ngIf="currentLang === 'ar'" class="arabic">الهاتف</label>
+          <input type="tel" [(ngModel)]="formData.phone" name="phone" (input)="formatPhone($event)" required>
+        </div>
+        <div class="form-group">
+          <label *ngIf="currentLang === 'en'">Message</label>
+          <label *ngIf="currentLang === 'ar'" class="arabic">الرسالة</label>
+          <textarea [(ngModel)]="formData.message" name="message" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="isSubmitting" style="width: 100%;">
+          <span *ngIf="!isSubmitting">
+            <span *ngIf="currentLang === 'en'">Send Message</span>
+            <span *ngIf="currentLang === 'ar'" class="arabic">إرسال الرسالة</span>
+          </span>
+          <span *ngIf="isSubmitting">
+            <span class="spinner"></span>
+            <span *ngIf="currentLang === 'en'">Sending...</span>
+            <span *ngIf="currentLang === 'ar'" class="arabic">جاري الإرسال...</span>
+          </span>
+        </button>
+        <div class="form-message" [class.success]="messageType === 'success'" [class.error]="messageType === 'error'" *ngIf="showMessage">
+          {{ messageText }}
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="map-placeholder">
+    <iframe 
+      src="https://www.google.com/maps?q=29.079821,48.137112&output=embed&zoom=15&hl=en" 
+      allowfullscreen="" 
+      loading="lazy" 
+      referrerpolicy="no-referrer-when-downgrade"
+      class="loaded"
+      title="Madrid Optics Location">
+    </iframe>
+  </div>
+</section>
+

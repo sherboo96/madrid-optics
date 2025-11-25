@@ -1,0 +1,46 @@
+<header>
+  <nav>
+    <div class="logo" (click)="scrollToSection('hero')">
+      <div class="logo-icon">
+        <div class="glasses-frame"></div>
+        <div class="glasses-lens left"></div>
+        <div class="glasses-lens right"></div>
+        <div class="glasses-bridge"></div>
+      </div>
+      <div class="logo-text">
+        <div class="main" *ngIf="currentLang === 'en'">Madrid Optics</div>
+        <div class="main" *ngIf="currentLang === 'ar'">نظارات مدريد</div>
+        <div class="slogan" *ngIf="currentLang === 'en'">SEE THE WORLD</div>
+        <div class="slogan arabic" *ngIf="currentLang === 'ar'" style="font-size: 0.65rem; letter-spacing: 1px;">انظر إلى العالم</div>
+      </div>
+    </div>
+    <ul class="nav-menu" [class.active]="mobileMenuOpen">
+      <li>
+        <a (click)="scrollToSection('about')" *ngIf="currentLang === 'en'">About</a>
+        <a (click)="scrollToSection('about')" *ngIf="currentLang === 'ar'" class="arabic">عننا</a>
+      </li>
+      <li>
+        <a (click)="scrollToSection('services')" *ngIf="currentLang === 'en'">Services</a>
+        <a (click)="scrollToSection('services')" *ngIf="currentLang === 'ar'" class="arabic">الخدمات</a>
+      </li>
+      <li>
+        <a (click)="scrollToSection('gallery')" *ngIf="currentLang === 'en'">Gallery</a>
+        <a (click)="scrollToSection('gallery')" *ngIf="currentLang === 'ar'" class="arabic">المعرض</a>
+      </li>
+      <li>
+        <a (click)="scrollToSection('contact')" *ngIf="currentLang === 'en'">Contact</a>
+        <a (click)="scrollToSection('contact')" *ngIf="currentLang === 'ar'" class="arabic">اتصل بنا</a>
+      </li>
+    </ul>
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <button class="mobile-menu-toggle" (click)="toggleMobileMenu()" [attr.aria-label]="'Menu'">
+        {{ mobileMenuOpen ? '✕' : '☰' }}
+      </button>
+      <div class="lang-switcher" [class.active]="currentLang === 'ar'" (click)="toggleLanguage()">
+        <span class="lang-icon">🌐</span>
+        <span class="lang-text">{{ languageService.getTranslation('langText') }}</span>
+      </div>
+    </div>
+  </nav>
+</header>
+

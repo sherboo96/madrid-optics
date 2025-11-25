@@ -1,0 +1,21 @@
+<section class="hero" id="hero">
+  <h1 *ngIf="currentLang === 'en'">Madrid Optics</h1>
+  <h1 *ngIf="currentLang === 'ar'" class="arabic">نظارات مدريد</h1>
+  <p class="arabic-subtitle" *ngIf="currentLang === 'ar'">طبية وشمسية وعدسات لاصقة وقياس نظر</p>
+  <p class="english-subtitle" *ngIf="currentLang === 'en'">Your trusted optical store for prescription glasses, sunglasses, and eye testing.</p>
+  <div class="hero-buttons">
+    <a (click)="scrollToContact()" class="btn btn-primary" *ngIf="currentLang === 'en'">
+      <span>Book an Eye Test</span>
+    </a>
+    <a (click)="scrollToContact()" class="btn btn-primary arabic" *ngIf="currentLang === 'ar'">
+      <span>حجز موعد لفحص النظر</span>
+    </a>
+    <a (click)="scrollToContact()" class="btn btn-secondary" *ngIf="currentLang === 'en'">
+      <span>Contact Us</span>
+    </a>
+    <a (click)="scrollToContact()" class="btn btn-secondary arabic" *ngIf="currentLang === 'ar'">
+      <span>اتصل بنا</span>
+    </a>
+  </div>
+</section>
+

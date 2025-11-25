@@ -1,0 +1,13 @@
+<section class="gallery" id="gallery">
+  <h2 class="section-title">
+    <span *ngIf="currentLang === 'en'">Gallery</span>
+    <span *ngIf="currentLang === 'ar'" class="arabic">معرض الصور</span>
+  </h2>
+  <div class="gallery-grid">
+    <div class="gallery-item" *ngFor="let item of items">
+      <span *ngIf="currentLang === 'en'">{{ item.textEn }}</span>
+      <span *ngIf="currentLang === 'ar'" class="arabic">{{ item.textAr }}</span>
+    </div>
+  </div>
+</section>
+

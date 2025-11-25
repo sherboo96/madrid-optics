@@ -1,0 +1,16 @@
+<section id="services">
+  <h2 class="section-title">
+    <span *ngIf="currentLang === 'en'">Our Services</span>
+    <span *ngIf="currentLang === 'ar'" class="arabic">خدماتنا</span>
+  </h2>
+  <div class="services-grid">
+    <div class="service-card" *ngFor="let service of services" (click)="onServiceClick()" tabindex="0" (keyup.enter)="onServiceClick()">
+      <div class="service-icon">{{ service.icon }}</div>
+      <h3 *ngIf="currentLang === 'en'">{{ service.titleEn }}</h3>
+      <h3 *ngIf="currentLang === 'ar'" class="arabic">{{ service.titleAr }}</h3>
+      <p *ngIf="currentLang === 'en'">{{ service.descEn }}</p>
+      <p *ngIf="currentLang === 'ar'" class="arabic">{{ service.descAr }}</p>
+    </div>
+  </div>
+</section>
+

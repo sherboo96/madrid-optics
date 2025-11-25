@@ -1,0 +1,15 @@
+<section class="about" id="about">
+  <h2 class="section-title">
+    <span *ngIf="currentLang === 'en'">About Madrid Optics</span>
+    <span *ngIf="currentLang === 'ar'" class="arabic">عن نظارات مدريد</span>
+  </h2>
+  <div class="about-content">
+    <div class="about-text arabic fade-in-on-scroll" *ngIf="currentLang === 'ar'">
+      نظارات مدريد متجر متخصص في بيع النظارات الطبية والشمسية والعدسات اللاصقة، مع خدمة قياس النظر باحترافية عالية. نقدم أحدث الموديلات العصرية والجودة الممتازة بأسعار تنافسية، إضافة إلى تشكيلة واسعة من الإطارات المناسبة لجميع الأعمار.
+    </div>
+    <div class="about-text english fade-in-on-scroll" *ngIf="currentLang === 'en'">
+      Madrid Optics is a specialized optical store offering prescription glasses, sunglasses, contact lenses, and professional eye testing services. We provide modern frames, high-quality lenses, and friendly service for all ages.
+    </div>
+  </div>
+</section>
+
