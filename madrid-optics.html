@@ -1526,13 +1526,291 @@
             });
         });
         
-        // Form submission handler
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
+        // Form submission handler with validation
+        const contactForm = document.getElementById('contactForm');
+        contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            const message = translations[currentLang].thankYou;
-            alert(message);
-            this.reset();
+            
+            // Get form values
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const message = document.getElementById('message').value.trim();
+            
+            // Remove existing messages
+            const existingMessage = this.querySelector('.form-message');
+            if (existingMessage) {
+                existingMessage.remove();
+            }
+            
+            // Validation
+            let isValid = true;
+            let errorMessage = '';
+            
+            if (!name || name.length < 2) {
+                isValid = false;
+                errorMessage = currentLang === 'ar' 
+                    ? 'الاسم يجب أن يكون على الأقل حرفين' 
+                    : 'Name must be at least 2 characters';
+            } else if (!phone || !/^[\d\s\-\+\(\)]+$/.test(phone)) {
+                isValid = false;
+                errorMessage = currentLang === 'ar' 
+                    ? 'يرجى إدخال رقم هاتف صحيح' 
+                    : 'Please enter a valid phone number';
+            } else if (!message || message.length < 10) {
+                isValid = false;
+                errorMessage = currentLang === 'ar' 
+                    ? 'الرسالة يجب أن تكون على الأقل 10 أحرف' 
+                    : 'Message must be at least 10 characters';
+            }
+            
+            // Show error or success
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `form-message ${isValid ? 'success' : 'error'}`;
+            messageDiv.textContent = isValid ? translations[currentLang].thankYou : errorMessage;
+            this.appendChild(messageDiv);
+            
+            if (isValid) {
+                // Simulate form submission
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<span class="spinner"></span>' + (currentLang === 'ar' ? 'جاري الإرسال...' : 'Sending...');
+                submitBtn.disabled = true;
+                
+                // Simulate API call
+                setTimeout(() => {
+                    this.reset();
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                    messageDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 2000);
+            } else {
+                // Focus on first error field
+                if (!name || name.length < 2) {
+                    document.getElementById('name').focus();
+                } else if (!phone || !/^[\d\s\-\+\(\)]+$/.test(phone)) {
+                    document.getElementById('phone').focus();
+                } else {
+                    document.getElementById('message').focus();
+                }
+            }
         });
+        
+        // Back to Top Button
+        const backToTopBtn = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', function() {
+            // Show/hide back to top button
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+            
+            // Update scroll progress bar
+            const scrollProgress = document.getElementById('scrollProgress');
+            const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (window.pageYOffset / windowHeight) * 100;
+            scrollProgress.style.width = scrolled + '%';
+        });
+        
+        backToTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && href.length > 1) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        const headerOffset = 80;
+                        const elementPosition = target.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                        
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+        
+        // Active section highlighting on scroll
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('nav a[href^="#"]');
+        
+        function highlightActiveSection() {
+            let current = '';
+            const scrollY = window.pageYOffset;
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.clientHeight;
+                
+                if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', highlightActiveSection);
+        
+        // Service cards interactive effect
+        const serviceCards = document.querySelectorAll('.service-card');
+        serviceCards.forEach(card => {
+            card.addEventListener('click', function() {
+                // Remove active class from all cards
+                serviceCards.forEach(c => c.classList.remove('active'));
+                // Add active class to clicked card
+                this.classList.add('active');
+                
+                // Scroll to contact section after a delay
+                setTimeout(() => {
+                    const contactSection = document.getElementById('contact');
+                    if (contactSection) {
+                        contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }, 500);
+            });
+            
+            // Add keyboard accessibility
+            card.setAttribute('tabindex', '0');
+            card.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.click();
+                }
+            });
+        });
+        
+        // Parallax effect for hero section
+        const hero = document.querySelector('.hero');
+        if (hero) {
+            window.addEventListener('scroll', function() {
+                const scrolled = window.pageYOffset;
+                const rate = scrolled * 0.5;
+                hero.style.transform = `translateY(${rate}px)`;
+            });
+        }
+        
+        // Intersection Observer for enhanced scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // Stagger animation for multiple elements
+                    if (entry.target.classList.contains('service-card')) {
+                        entry.target.style.animationDelay = `${index * 0.1}s`;
+                    }
+                }
+            });
+        }, observerOptions);
+        
+        // Observe all elements that should animate on scroll
+        document.querySelectorAll('.fade-in-on-scroll, .service-card, .gallery-item, .about-text').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Form input animations
+        const formInputs = document.querySelectorAll('input, textarea');
+        formInputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.classList.add('focused');
+            });
+            
+            input.addEventListener('blur', function() {
+                if (!this.value) {
+                    this.parentElement.classList.remove('focused');
+                }
+            });
+            
+            // Check if input has value on load
+            if (input.value) {
+                input.parentElement.classList.add('focused');
+            }
+        });
+        
+        // Phone number formatting
+        const phoneInput = document.getElementById('phone');
+        if (phoneInput) {
+            phoneInput.addEventListener('input', function(e) {
+                let value = this.value.replace(/\D/g, '');
+                if (value.length > 0 && !value.startsWith('965')) {
+                    if (value.startsWith('0')) {
+                        value = '965' + value.substring(1);
+                    } else if (!value.startsWith('965')) {
+                        value = '965' + value;
+                    }
+                }
+                // Format: +965 XXXX XXXX
+                if (value.length > 3) {
+                    value = value.substring(0, 3) + ' ' + value.substring(3);
+                }
+                if (value.length > 8) {
+                    value = value.substring(0, 8) + ' ' + value.substring(8, 12);
+                }
+                this.value = '+' + value;
+            });
+        }
+        
+        // Gallery items click handler (for future lightbox)
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        galleryItems.forEach(item => {
+            item.addEventListener('click', function() {
+                // Add pulse animation
+                this.style.animation = 'pulse 0.5s ease';
+                setTimeout(() => {
+                    this.style.animation = '';
+                }, 500);
+            });
+        });
+        
+        // Lazy load images (if images are added later)
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        if (img.dataset.src) {
+                            img.src = img.dataset.src;
+                            img.classList.add('loaded');
+                            observer.unobserve(img);
+                        }
+                    }
+                });
+            });
+            
+            document.querySelectorAll('img[data-src]').forEach(img => {
+                imageObserver.observe(img);
+            });
+        }
+        
+        // Prevent form resubmission on page reload
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+        
+        // Console welcome message
+        console.log('%c👓 Madrid Optics', 'color: #2C7A9E; font-size: 20px; font-weight: bold;');
+        console.log('%cWelcome to our website!', 'color: #4A90A4; font-size: 14px;');
     </script>
 </body>
 </html>
