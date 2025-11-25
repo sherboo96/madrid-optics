@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlRoot">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Madrid Optics - نظارات مدريد</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ===== CSS Reset & Base Styles ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #2C7A9E;
+            --primary-dark: #1E5A7A;
+            --secondary-color: #4A90A4;
+            --accent-color: #6BB6C7;
+            --teal-blue: #2C7A9E;
+            --teal-light: #4A90A4;
+            --text-dark: #2C3E50;
+            --text-light: #7F8C8D;
+            --bg-light: #F8F9FA;
+            --bg-white: #FFFFFF;
+            --border-color: #E1E8ED;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        body[dir="rtl"] {
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        body[dir="ltr"] {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        /* Arabic text styling */
+        .arabic {
+            font-family: 'Cairo', sans-serif;
+            direction: rtl;
+        }
+        
+        .english {
+            font-family: 'Poppins', sans-serif;
+            direction: ltr;
+        }
+        
+        /* Language Switcher */
+        .lang-switcher {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--bg-light);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .lang-switcher:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 2px 8px rgba(44, 122, 158, 0.2);
+        }
+        
+        .lang-switcher.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .lang-switcher.active .lang-text {
+            color: white;
+        }
+        
+        .lang-switcher .lang-text {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            transition: color 0.3s ease;
+            white-space: nowrap;
+        }
+        
+        .lang-switcher .lang-icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .lang-switcher:hover .lang-icon {
+            transform: rotate(15deg);
+        }
+        
+        /* Content visibility for language switching */
+        [data-lang="ar"] {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        [data-lang="en"] {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        [data-lang].hidden {
+            display: none !important;
+        }
+        
+        [data-lang].fade-out {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        
+        [data-lang].fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* ===== Header / Navigation ===== */
+        header {
+            background: var(--bg-white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+        
+        nav {
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .logo-icon {
+            width: 60px;
+            height: 40px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 30px;
+            border: 4px solid var(--primary-color);
+            border-radius: 8px 8px 12px 12px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--primary-color);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: transparent;
+        }
+        
+        .glasses-frame {
+            position: absolute;
+            width: 50px;
+            height: 30px;
+            border: 4px solid var(--primary-color);
+            border-radius: 8px 8px 12px 12px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .glasses-lens {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border: 3px solid var(--primary-color);
+            border-radius: 50%;
+            top: 50%;
+            background: rgba(44, 122, 158, 0.1);
+        }
+        
+        .glasses-lens.left {
+            left: 8px;
+            transform: translateY(-50%);
+        }
+        
+        .glasses-lens.right {
+            right: 8px;
+            transform: translateY(-50%);
+        }
+        
+        .glasses-bridge {
+            position: absolute;
+            width: 6px;
+            height: 4px;
+            background: var(--primary-color);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 2px;
+        }
+        
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .logo-text .main {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            line-height: 1.2;
+        }
+        
+        .logo-text .main[data-lang="ar"] {
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.3rem;
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+        
+        .logo-text .slogan {
+            font-size: 0.7rem;
+            color: var(--text-light);
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 0.2rem;
+        }
+        
+        /* ===== Hero Section ===== */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 6rem 2rem;
+            text-align: center;
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            animation: fadeInUp 0.8s ease;
+        }
+        
+        .hero .arabic-subtitle {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+            opacity: 0.95;
+            animation: fadeInUp 1s ease;
+        }
+        
+        .hero .english-subtitle {
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 1.2s ease;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1.4s ease;
+        }
+        
+        .btn {
+            padding: 1rem 2.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .btn span {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .btn-primary {
+            background: white;
+            color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+        
+        /* ===== Section Styles ===== */
+        section {
+            padding: 5rem 2rem;
+            width: 100%;
+            margin: 0 auto;
+        }
+        
+        /* Container for content that needs max-width */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        /* Sections with constrained content */
+        section .container {
+            padding: 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 3rem;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .section-title .arabic {
+            color: var(--secondary-color);
+            margin-right: 0.5rem;
+        }
+        
+        /* ===== About Us Section ===== */
+        .about {
+            background: var(--bg-light);
+        }
+        
+        .about-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .about-text {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            line-height: 1.8;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .about-text:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .about-text.arabic {
+            text-align: right;
+            font-size: 1.1rem;
+        }
+        
+        .about-text.english {
+            text-align: left;
+        }
+        
+        /* ===== Services Section ===== */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .service-card {
+            background: white;
+            padding: 2.5rem 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--accent-color);
+        }
+        
+        .service-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .service-card h3 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .service-card .arabic {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+            display: block;
+            margin-top: 0.5rem;
+        }
+        
+        .service-card p {
+            color: var(--text-light);
+            margin-top: 1rem;
+            font-size: 0.95rem;
+        }
+        
+        /* ===== Gallery Section ===== */
+        .gallery {
+            background: var(--bg-light);
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .gallery-item {
+            aspect-ratio: 4/3;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .gallery-item:hover::before {
+            opacity: 1;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.05) rotate(1deg);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .gallery-item span {
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* ===== Contact Section ===== */
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 2rem;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .contact-info {
+            background: var(--bg-light);
+            padding: 2rem;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .contact-item {
+            margin-bottom: 0;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-left: 4px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .contact-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .contact-item:hover::before {
+            transform: scaleY(1);
+        }
+        
+        .contact-item:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-hover);
+            border-left-color: var(--primary-color);
+        }
+        
+        .contact-item-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: white;
+            flex-shrink: 0;
+            box-shadow: 0 4px 15px rgba(44, 122, 158, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .contact-item:hover .contact-icon {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 6px 20px rgba(44, 122, 158, 0.4);
+        }
+        
+        .contact-item strong {
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+        
+        .contact-item-content {
+            padding-right: 3.5rem;
+            line-height: 1.8;
+        }
+        
+        .contact-item-content p {
+            margin: 0.5rem 0;
+            color: var(--text-dark);
+            font-size: 1rem;
+        }
+        
+        .contact-item-content a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+            font-weight: 500;
+        }
+        
+        .contact-item-content a:hover {
+            color: var(--primary-color);
+            transform: translateX(3px);
+        }
+        
+        .address-card {
+            background: linear-gradient(135deg, rgba(44, 122, 158, 0.05), rgba(107, 182, 199, 0.05));
+            border: 2px solid rgba(44, 122, 158, 0.1);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .address-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(44, 122, 158, 0.1) 0%, transparent 70%);
+            animation: pulse 3s ease-in-out infinite;
+        }
+        
+        .address-card p {
+            position: relative;
+            z-index: 1;
+            margin: 0.3rem 0;
+        }
+        
+        .address-line {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0.4rem 0;
+        }
+        
+        .address-line::before {
+            content: '📍';
+            font-size: 1rem;
+        }
+        
+        .contact-item.phone-item .contact-icon {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+        }
+        
+        .contact-item.whatsapp-item .contact-icon {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+        }
+        
+        .contact-item.email-item .contact-icon {
+            background: linear-gradient(135deg, #EA4335, #C5221F);
+        }
+        
+        .contact-item.address-item .contact-icon {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+        }
+        
+        .contact-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .map-placeholder {
+            margin-top: 2rem;
+            height: 450px;
+            background: var(--bg-light);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+        }
+        
+        .map-placeholder iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 15px;
+            display: block;
+        }
+        
+        .map-placeholder .map-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--text-light);
+            font-size: 1.1rem;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .map-placeholder iframe.loaded ~ .map-loading {
+            display: none;
+        }
+        
+        .contact-item p.arabic {
+            direction: rtl;
+            text-align: right;
+        }
+        
+        .contact-item p.english {
+            direction: ltr;
+            text-align: left;
+        }
+        
+        /* Address specific styling */
+        .address-card p.arabic {
+            direction: rtl;
+            text-align: right;
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        .address-card p.english {
+            direction: ltr;
+            text-align: left;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .directions-btn {
+            margin-top: 1rem;
+            padding: 0.7rem 1.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(44, 122, 158, 0.3);
+        }
+        
+        .directions-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(44, 122, 158, 0.4);
+        }
+        
+        .directions-btn::before {
+            content: '🗺️';
+            font-size: 1.1rem;
+        }
+        
+        /* Responsive adjustments for contact items */
+        @media (max-width: 768px) {
+            .contact-item-content {
+                padding-right: 0;
+            }
+            
+            .contact-item:hover {
+                transform: translateY(-3px);
+            }
+        }
+        
+        /* ===== Footer ===== */
+        footer {
+            background: var(--text-dark);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        footer p {
+            margin: 0.5rem 0;
+        }
+        
+        footer .arabic {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        /* ===== Back to Top Button ===== */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(44, 122, 158, 0.4);
+            transition: all 0.3s ease;
+            z-index: 999;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .back-to-top.visible {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(44, 122, 158, 0.6);
+        }
+        
+        body[dir="rtl"] .back-to-top {
+            right: auto;
+            left: 30px;
+        }
+        
+        /* ===== Scroll Progress Bar ===== */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            z-index: 10000;
+            transition: width 0.1s ease;
+        }
+        
+        /* ===== Active Navigation Highlight ===== */
+        nav a.active {
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+        
+        /* ===== Form Success/Error Messages ===== */
+        .form-message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            display: none;
+            animation: slideInDown 0.3s ease;
+        }
+        
+        .form-message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+        
+        .form-message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+        
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* ===== Loading Spinner ===== */
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* ===== Service Card Interactive ===== */
+        .service-card {
+            cursor: pointer;
+        }
+        
+        .service-card.active {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        /* ===== Smooth Scroll ===== */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* ===== Parallax Effect ===== */
+        .parallax {
+            transition: transform 0.3s ease-out;
+        }
+        
+        /* ===== Animations ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        
+        /* Scroll animations */
+        .fade-in-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .fade-in-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Service card animation */
+        .service-card {
+            animation: fadeInUp 0.6s ease backwards;
+        }
+        
+        .service-card:nth-child(1) { animation-delay: 0.1s; }
+        .service-card:nth-child(2) { animation-delay: 0.2s; }
+        .service-card:nth-child(3) { animation-delay: 0.3s; }
+        .service-card:nth-child(4) { animation-delay: 0.4s; }
+        
+        /* ===== Responsive Design ===== */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero .arabic-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .hero .english-subtitle {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+            
+            .contact-wrapper {
+                grid-template-columns: 1fr;
+            }
+            
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .logo {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo-icon {
+                margin: 0 auto;
+            }
+            
+            .logo-text .slogan {
+                font-size: 0.6rem;
+            }
+            
+            .lang-switcher {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.85rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero {
+                padding: 4rem 1.5rem;
+                min-height: 60vh;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            section {
+                padding: 3rem 1.5rem;
+            }
+            
+            .service-card,
+            .contact-form,
+            .contact-info {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header / Navigation -->
+    <header>
+        <nav>
+            <div class="logo">
+                <div class="logo-icon">
+                    <div class="glasses-frame"></div>
+                    <div class="glasses-lens left"></div>
+                    <div class="glasses-lens right"></div>
+                    <div class="glasses-bridge"></div>
+                </div>
+                <div class="logo-text">
+                    <div class="main" data-lang="en">Madrid Optics</div>
+                    <div class="main" data-lang="ar">نظارات مدريد</div>
+                    <div class="slogan" data-lang="en">SEE THE WORLD</div>
+                    <div class="slogan arabic" data-lang="ar" style="font-size: 0.65rem; letter-spacing: 1px;">انظر إلى العالم</div>
+                </div>
+            </div>
+            <div class="lang-switcher" id="langSwitcher">
+                <span class="lang-icon">🌐</span>
+                <span class="lang-text" id="langText">العربية</span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1 data-lang="en">Madrid Optics</h1>
+        <h1 data-lang="ar" class="arabic">نظارات مدريد</h1>
+        <p class="arabic-subtitle" data-lang="ar">طبية وشمسية وعدسات لاصقة وقياس نظر</p>
+        <p class="english-subtitle" data-lang="en">Your trusted optical store for prescription glasses, sunglasses, and eye testing.</p>
+        <div class="hero-buttons">
+            <a href="#contact" class="btn btn-primary" data-lang="en"><span>Book an Eye Test</span></a>
+            <a href="#contact" class="btn btn-primary arabic" data-lang="ar"><span>حجز موعد لفحص النظر</span></a>
+            <a href="#contact" class="btn btn-secondary" data-lang="en"><span>Contact Us</span></a>
+            <a href="#contact" class="btn btn-secondary arabic" data-lang="ar"><span>اتصل بنا</span></a>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section class="about" id="about">
+        <h2 class="section-title">
+            <span data-lang="en">About Madrid Optics</span>
+            <span data-lang="ar" class="arabic">عن نظارات مدريد</span>
+        </h2>
+        <div class="about-content">
+            <div class="about-text arabic fade-in-on-scroll" data-lang="ar">
+                نظارات مدريد متجر متخصص في بيع النظارات الطبية والشمسية والعدسات اللاصقة، مع خدمة قياس النظر باحترافية عالية. نقدم أحدث الموديلات العصرية والجودة الممتازة بأسعار تنافسية، إضافة إلى تشكيلة واسعة من الإطارات المناسبة لجميع الأعمار.
+            </div>
+            <div class="about-text english fade-in-on-scroll" data-lang="en">
+                Madrid Optics is a specialized optical store offering prescription glasses, sunglasses, contact lenses, and professional eye testing services. We provide modern frames, high-quality lenses, and friendly service for all ages.
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+        <h2 class="section-title">
+            <span data-lang="en">Our Services</span>
+            <span data-lang="ar" class="arabic">خدماتنا</span>
+        </h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">👓</div>
+                <h3 data-lang="en">Prescription Glasses</h3>
+                <h3 data-lang="ar" class="arabic">نظارات طبية</h3>
+                <p data-lang="en">High-quality prescription glasses tailored to your vision needs with modern frame designs.</p>
+                <p data-lang="ar" class="arabic">نظارات طبية عالية الجودة مصممة خصيصاً لاحتياجاتك البصرية مع أحدث تصاميم الإطارات.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">😎</div>
+                <h3 data-lang="en">Sunglasses</h3>
+                <h3 data-lang="ar" class="arabic">نظارات شمسية</h3>
+                <p data-lang="en">Stylish sunglasses with UV protection to keep your eyes safe and fashionable.</p>
+                <p data-lang="ar" class="arabic">نظارات شمسية أنيقة مع حماية من الأشعة فوق البنفسجية لحماية عينيك مع الحفاظ على الأناقة.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🔍</div>
+                <h3 data-lang="en">Contact Lenses</h3>
+                <h3 data-lang="ar" class="arabic">عدسات لاصقة</h3>
+                <p data-lang="en">Comfortable contact lenses in various types for daily and extended wear.</p>
+                <p data-lang="ar" class="arabic">عدسات لاصقة مريحة بأنواع مختلفة للاستخدام اليومي والاستخدام الممتد.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">👁️</div>
+                <h3 data-lang="en">Eye Testing</h3>
+                <h3 data-lang="ar" class="arabic">قياس نظر</h3>
+                <p data-lang="en">Professional eye examinations using advanced equipment for accurate prescriptions.</p>
+                <p data-lang="ar" class="arabic">فحوصات عينية احترافية باستخدام أحدث الأجهزة للحصول على وصفات طبية دقيقة.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery" id="gallery">
+        <h2 class="section-title">
+            <span data-lang="en">Gallery</span>
+            <span data-lang="ar" class="arabic">معرض الصور</span>
+        </h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <span data-lang="en">Shop Interior</span>
+                <span data-lang="ar" class="arabic">داخل المتجر</span>
+            </div>
+            <div class="gallery-item">
+                <span data-lang="en">Frames Collection</span>
+                <span data-lang="ar" class="arabic">مجموعة الإطارات</span>
+            </div>
+            <div class="gallery-item">
+                <span data-lang="en">Sunglasses</span>
+                <span data-lang="ar" class="arabic">نظارات شمسية</span>
+            </div>
+            <div class="gallery-item">
+                <span data-lang="en">Eye Testing Room</span>
+                <span data-lang="ar" class="arabic">غرفة فحص النظر</span>
+            </div>
+            <div class="gallery-item">
+                <span data-lang="en">Modern Frames</span>
+                <span data-lang="ar" class="arabic">إطارات عصرية</span>
+            </div>
+            <div class="gallery-item">
+                <span data-lang="en">Contact Lenses</span>
+                <span data-lang="ar" class="arabic">عدسات لاصقة</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location & Contact Section -->
+    <section id="contact">
+        <h2 class="section-title">
+            <span data-lang="en">Location & Contact</span>
+            <span data-lang="ar" class="arabic">الموقع وطرق التواصل</span>
+        </h2>
+        <div class="contact-wrapper">
+            <div class="contact-info">
+                <div class="contact-item address-item">
+                    <div class="contact-item-header">
+                        <div class="contact-icon">📍</div>
+                        <strong data-lang="en">Address</strong>
+                        <strong data-lang="ar" class="arabic">العنوان</strong>
+                    </div>
+                    <div class="contact-item-content">
+                        <div class="address-card">
+                            <p class="arabic" data-lang="ar">
+                                الفحيحيل، الأحمدي<br>
+                                شارع عبد الله العجيل<br>
+                                مبنى عبد الله جاسم الدبوس<br>
+                                الطابق الأرضي، محل رقم 1<br>
+                                <span style="color: var(--primary-color); font-weight: 600;">قطعة: 007913، بلوك: 011</span>
+                            </p>
+                            <p class="english" data-lang="en">
+                                Fahaheel, Ahmadi<br>
+                                Abdullah Al-Ajeel Street<br>
+                                Abdullah Jassim Al-Dabbous Building<br>
+                                Ground Floor, Shop 1<br>
+                                <span style="color: var(--primary-color); font-weight: 600;">Plot: 007913, Block: 011</span>
+                            </p>
+                            <a href="https://www.google.com/maps?q=29.079821,48.137112" 
+                               target="_blank" 
+                               class="directions-btn"
+                               data-lang="en">
+                                Get Directions
+                            </a>
+                            <a href="https://www.google.com/maps?q=29.079821,48.137112" 
+                               target="_blank" 
+                               class="directions-btn arabic"
+                               data-lang="ar">
+                                احصل على الاتجاهات
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-item phone-item">
+                    <div class="contact-item-header">
+                        <div class="contact-icon">📞</div>
+                        <strong data-lang="en">Phone</strong>
+                        <strong data-lang="ar" class="arabic">الهاتف</strong>
+                    </div>
+                    <div class="contact-item-content">
+                        <p><a href="tel:+96566110278">+965 6611 0278</a></p>
+                        <p><a href="tel:+965066110278">+965 0661 10278</a></p>
+                    </div>
+                </div>
+                <div class="contact-item whatsapp-item">
+                    <div class="contact-item-header">
+                        <div class="contact-icon">💬</div>
+                        <strong data-lang="en">WhatsApp</strong>
+                        <strong data-lang="ar" class="arabic">واتساب</strong>
+                    </div>
+                    <div class="contact-item-content">
+                        <p><a href="https://wa.me/96566110278" target="_blank">+965 6611 0278</a></p>
+                    </div>
+                </div>
+                <div class="contact-item email-item">
+                    <div class="contact-item-header">
+                        <div class="contact-icon">✉️</div>
+                        <strong data-lang="en">Email</strong>
+                        <strong data-lang="ar" class="arabic">البريد الإلكتروني</strong>
+                    </div>
+                    <div class="contact-item-content">
+                        <p><a href="mailto:info@madrid-optics.com">info@madrid-optics.com</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-form">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name" data-lang="en">Name</label>
+                        <label for="name" data-lang="ar" class="arabic">الاسم</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone" data-lang="en">Phone</label>
+                        <label for="phone" data-lang="ar" class="arabic">الهاتف</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message" data-lang="en">Message</label>
+                        <label for="message" data-lang="ar" class="arabic">الرسالة</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <span><span data-lang="en">Send Message</span><span data-lang="ar" class="arabic">إرسال الرسالة</span></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="map-placeholder">
+            <div class="map-loading">
+                <p data-lang="en">Loading Map...</p>
+                <p data-lang="ar" class="arabic">جاري تحميل الخريطة...</p>
+            </div>
+            <iframe 
+                src="https://www.google.com/maps?q=29.079821,48.137112&output=embed&zoom=15&hl=en" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade"
+                class="loaded"
+                title="Madrid Optics Location">
+            </iframe>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p data-lang="en">© 2025 Madrid Optics. All rights reserved.</p>
+        <p data-lang="ar" class="arabic">جميع الحقوق محفوظة لنظارات مدريد ٢٠٢٥</p>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        ↑
+    </button>
+    
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Language Switcher & Interactive Features -->
+    <script>
+        // Language switching functionality
+        let currentLang = 'ar'; // Default to Arabic
+        
+        const translations = {
+            en: {
+                langText: 'English',
+                thankYou: 'Thank you for your message! We will contact you soon.',
+                mapPlaceholder: 'Google Maps Location'
+            },
+            ar: {
+                langText: 'العربية',
+                thankYou: 'شكراً لرسالتك! سنتواصل معك قريباً.',
+                mapPlaceholder: 'الموقع على خرائط جوجل'
+            }
+        };
+        
+        function switchLanguage(lang) {
+            currentLang = lang;
+            const html = document.getElementById('htmlRoot');
+            const body = document.body;
+            const langText = document.getElementById('langText');
+            const langSwitcher = document.getElementById('langSwitcher');
+            
+            // Update HTML attributes
+            html.setAttribute('lang', lang);
+            html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            body.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            
+            // Update language switcher
+            langText.textContent = translations[lang].langText;
+            langSwitcher.classList.toggle('active', lang === 'ar');
+            
+            // Hide/show content with animation
+            const allElements = document.querySelectorAll('[data-lang]');
+            allElements.forEach(el => {
+                const elementLang = el.getAttribute('data-lang');
+                if (elementLang === lang) {
+                    el.classList.remove('hidden', 'fade-out');
+                    el.classList.add('fade-in');
+                    setTimeout(() => {
+                        el.style.display = '';
+                    }, 150);
+                } else {
+                    el.classList.add('fade-out');
+                    setTimeout(() => {
+                        el.classList.add('hidden');
+                        el.classList.remove('fade-in');
+                    }, 300);
+                }
+            });
+            
+            // Update form labels direction
+            const inputs = document.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                if (lang === 'ar') {
+                    input.style.direction = 'rtl';
+                    input.style.textAlign = 'right';
+                } else {
+                    input.style.direction = 'ltr';
+                    input.style.textAlign = 'left';
+                }
+            });
+            
+            // Save preference
+            localStorage.setItem('preferredLang', lang);
+        }
+        
+        // Initialize language on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLang = localStorage.getItem('preferredLang') || 'ar';
+            switchLanguage(savedLang);
+            
+            // Add click handler to language switcher
+            document.getElementById('langSwitcher').addEventListener('click', function() {
+                const newLang = currentLang === 'ar' ? 'en' : 'ar';
+                switchLanguage(newLang);
+            });
+            
+            // Scroll animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+            
+            document.querySelectorAll('.fade-in-on-scroll').forEach(el => {
+                observer.observe(el);
+            });
+        });
+        
+        // Form submission handler
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const message = translations[currentLang].thankYou;
+            alert(message);
+            this.reset();
+        });
+    </script>
+</body>
+</html>
