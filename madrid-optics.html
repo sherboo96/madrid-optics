@@ -154,6 +154,82 @@
             gap: 1rem;
         }
         
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            list-style: none;
+        }
+        
+        .nav-menu a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+        
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-menu a:hover::after,
+        .nav-menu a.active::after {
+            width: 100%;
+        }
+        
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: var(--primary-color);
+        }
+        
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--primary-color);
+            padding: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                box-shadow: var(--shadow);
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+                z-index: 999;
+            }
+            
+            .nav-menu.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+            }
+        }
+        
         .logo {
             display: flex;
             align-items: center;
@@ -1188,9 +1264,20 @@
                     <div class="slogan arabic" data-lang="ar" style="font-size: 0.65rem; letter-spacing: 1px;">انظر إلى العالم</div>
                 </div>
             </div>
-            <div class="lang-switcher" id="langSwitcher">
-                <span class="lang-icon">🌐</span>
-                <span class="lang-text" id="langText">العربية</span>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#about" data-lang="en">About</a><a href="#about" data-lang="ar" class="arabic">عننا</a></li>
+                <li><a href="#services" data-lang="en">Services</a><a href="#services" data-lang="ar" class="arabic">الخدمات</a></li>
+                <li><a href="#gallery" data-lang="en">Gallery</a><a href="#gallery" data-lang="ar" class="arabic">المعرض</a></li>
+                <li><a href="#contact" data-lang="en">Contact</a><a href="#contact" data-lang="ar" class="arabic">اتصل بنا</a></li>
+            </ul>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Menu">
+                    ☰
+                </button>
+                <div class="lang-switcher" id="langSwitcher">
+                    <span class="lang-icon">🌐</span>
+                    <span class="lang-text" id="langText">العربية</span>
+                </div>
             </div>
         </nav>
     </header>
@@ -1492,6 +1579,16 @@
                 }
             });
             
+            // Update navigation menu direction
+            const navMenu = document.getElementById('navMenu');
+            if (navMenu) {
+                if (lang === 'ar') {
+                    navMenu.style.direction = 'rtl';
+                } else {
+                    navMenu.style.direction = 'ltr';
+                }
+            }
+            
             // Save preference
             localStorage.setItem('preferredLang', lang);
         }
@@ -1641,6 +1738,25 @@
             });
         });
         
+        // Mobile menu toggle
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const navMenu = document.getElementById('navMenu');
+        
+        if (mobileMenuToggle) {
+            mobileMenuToggle.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+                this.textContent = navMenu.classList.contains('active') ? '✕' : '☰';
+            });
+            
+            // Close menu when clicking on a link
+            navMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function() {
+                    navMenu.classList.remove('active');
+                    mobileMenuToggle.textContent = '☰';
+                });
+            });
+        }
+        
         // Active section highlighting on scroll
         const sections = document.querySelectorAll('section[id]');
         const navLinks = document.querySelectorAll('nav a[href^="#"]');
@@ -1667,6 +1783,16 @@
         }
         
         window.addEventListener('scroll', highlightActiveSection);
+        
+        // Close mobile menu on scroll
+        window.addEventListener('scroll', function() {
+            if (navMenu && navMenu.classList.contains('active')) {
+                navMenu.classList.remove('active');
+                if (mobileMenuToggle) {
+                    mobileMenuToggle.textContent = '☰';
+                }
+            }
+        });
         
         // Service cards interactive effect
         const serviceCards = document.querySelectorAll('.service-card');
